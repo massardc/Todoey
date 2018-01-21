@@ -60,18 +60,13 @@ class CategoryTableVC: SwipeTableVC {
         
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
         
-//        if let category = categories?[indexPath.row] {
-//            cell.textLabel?.text = category.name
-//            cell.backgroundColor = UIColor(hexString: category.bgColor)
-//        } else {
-//            cell.textLabel?.text = "No categories added yet"
-//            cell.backgroundColor = UIColor.white
-//        }
-        
-        // Same code with the nil coalescing operator
-        cell.textLabel?.text = categories?[indexPath.row].name ?? "No categories added yet."
-        cell.backgroundColor = UIColor(hexString: categories?[indexPath.row].bgColor ?? UIColor.white.hexValue())
-        
+        if let category = categories?[indexPath.row] {
+            cell.textLabel?.text = category.name
+            
+            guard let categoryColor = UIColor(hexString: category.bgColor) else { fatalError() }
+            cell.backgroundColor = categoryColor
+            cell.textLabel?.textColor = ContrastColorOf(categoryColor, returnFlat: true)
+        }
         
         return cell
     }
